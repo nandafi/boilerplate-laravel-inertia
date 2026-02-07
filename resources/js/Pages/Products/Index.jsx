@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Plus, Search, Edit2, Trash2, ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Pagination from "@/components/pagination";
 
 export default function Index({ products, categories, filters }) {
     const [search, setSearch] = useState(filters.search || "");
@@ -47,12 +48,19 @@ export default function Index({ products, categories, filters }) {
     });
 
     const handleSearch = (e) => {
-        e.preventDefault();
-        router.get(route('products.index'), { search }, {
+        if (e) e.preventDefault();
+        router.get(route('products.index'), { search, page: 1 }, {
             preserveState: true,
             replace: true,
         });
     };
+
+    // Auto-search when search is cleared
+    React.useEffect(() => {
+        if (search === "" && filters.search) {
+            handleSearch();
+        }
+    }, [search]);
 
     const openCreateDialog = () => {
         setEditingProduct(null);
@@ -193,30 +201,7 @@ export default function Index({ products, categories, filters }) {
                             </Table>
                         </div>
 
-                        {/* Pagination */}
-                        <div className="flex items-center justify-end space-x-2 py-4">
-                            <div className="flex-1 text-sm text-muted-foreground">
-                                Page {products.current_page} of {products.last_page}
-                            </div>
-                            <div className="space-x-2">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={!products.prev_page_url}
-                                    onClick={() => router.get(products.prev_page_url)}
-                                >
-                                    <ChevronLeft className="h-4 w-4 mr-1" /> Previous
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={!products.next_page_url}
-                                    onClick={() => router.get(products.next_page_url)}
-                                >
-                                    Next <ChevronRight className="h-4 w-4 ml-1" />
-                                </Button>
-                            </div>
-                        </div>
+                        <Pagination meta={products} links={products.links} />
                     </CardContent>
                 </Card>
             </div>

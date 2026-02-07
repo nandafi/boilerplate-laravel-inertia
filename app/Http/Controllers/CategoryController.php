@@ -16,7 +16,8 @@ class CategoryController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $categories = $query->latest()->paginate(10)->withQueryString();
+        $perPage = $request->input('per_page', 10);
+        $categories = $query->latest()->paginate($perPage)->withQueryString();
 
         return Inertia::render('Categories/Index', [
             'categories' => $categories,

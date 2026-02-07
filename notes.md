@@ -37,14 +37,29 @@ Berikut adalah penjelasan mengenai folder-folder utama yang ada di proyek Larave
 
 ---
 
+## 💻 Workflow Pengembangan (Development)
+
+Untuk menjalankan proyek ini secara lokal, Anda perlu menjalankan dua perintah di terminal yang berbeda:
+
+### 1. Terminal 1: Backend (Laravel)
+
+Menjalankan server PHP untuk logika aplikasi dan koneksi database.
+
+- **Command**: `php artisan serve`
+- **URL**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+### 2. Terminal 2: Frontend (Vite)
+
+Menjalankan asset bundler untuk React, Tailwind, dan Hot Module Replacement (HMR).
+
+- **Command**: `npm run dev`
+- **Port**: `5173` (Tidak perlu dibuka manual, Vite akan mengirim asset ke Laravel secara otomatis).
+
+> **Penting**: Pastikan kedua perintah di atas berjalan secara bersamaan agar perubahan kode React langsung muncul di browser tanpa reload manual.
+
+---
+
 ## ⌨️ Command Laravel (Artisan) yang Umum Digunakan
-
-Jalankan perintah ini di terminal pada direktori utama proyek.
-
-### 🚀 Menjalankan Aplikasi
-
-- **`php artisan serve`**
-  Menjalankan server pengembangan lokal (default: `http://127.0.0.1:8000`).
 
 ### 🛠️ Membuat Komponen Baru (Generator)
 
@@ -78,3 +93,26 @@ Jalankan perintah ini di terminal pada direktori utama proyek.
   Membersihkan semua cache (route, config, view, dll) jika ada perubahan yang tidak muncul.
 - **`php artisan key:generate`**
   Menghasilkan `APP_KEY` baru di file `.env` (biasanya dilakukan saat pertama kali setup).
+
+---
+
+## 🎨 UI & Themes (Shadcn + TweakCN)
+
+Proyek ini menggunakan **Shadcn UI** dengan kustomisasi tema dari **TweakCN**.
+
+### Cara Update/Ganti Tema
+
+Jika ada pembaruan pada tema atau ingin mengganti dengan tema lain dari TweakCN, jalankan perintah berikut:
+
+```bash
+npx shadcn@latest add https://tweakcn.com/r/themes/[id-tema]
+```
+
+**Langkah-langkah:**
+
+1. Copy URL tema dari TweakCN.
+2. Jalankan perintah di atas di terminal.
+3. Saat muncul pertanyaan `Overwrite?`, ketik **`y`** lalu Enter.
+4. Tema (variabel warna di `app.css`) akan diperbarui secara otomatis.
+
+> **Catatan**: Konfigurasi `tailwind.config.js` sudah diset fleksibel untuk mendukung format Hex, HSL, maupun OKLCH, sehingga tidak perlu diubah lagi saat ganti tema.

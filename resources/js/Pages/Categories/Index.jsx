@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Search, Edit2, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Pagination from "@/components/pagination";
 
 export default function Index({ categories, filters }) {
     const [search, setSearch] = useState(filters.search || "");
@@ -34,12 +35,19 @@ export default function Index({ categories, filters }) {
     });
 
     const handleSearch = (e) => {
-        e.preventDefault();
-        router.get(route('categories.index'), { search }, {
+        if (e) e.preventDefault();
+        router.get(route('categories.index'), { search, page: 1 }, {
             preserveState: true,
             replace: true,
         });
     };
+
+    // Auto-search when search is cleared
+    React.useEffect(() => {
+        if (search === "" && filters.search) {
+            handleSearch();
+        }
+    }, [search]);
 
     const openCreateDialog = () => {
         setEditingCategory(null);
@@ -156,30 +164,7 @@ export default function Index({ categories, filters }) {
                             </Table>
                         </div>
 
-                        {/* Pagination */}
-                        <div className="flex items-center justify-end space-x-2 py-4">
-                            <div className="flex-1 text-sm text-muted-foreground">
-                                Page {categories.current_page} of {categories.last_page}
-                            </div>
-                            <div className="space-x-2">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={!categories.prev_page_url}
-                                    onClick={() => router.get(categories.prev_page_url)}
-                                >
-                                    <ChevronLeft className="h-4 w-4 mr-1" /> Previous
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={!categories.next_page_url}
-                                    onClick={() => router.get(categories.next_page_url)}
-                                >
-                                    Next <ChevronRight className="h-4 w-4 ml-1" />
-                                </Button>
-                            </div>
-                        </div>
+                        <Pagination meta={categories} links={categories.links} />
                     </CardContent>
                 </Card>
             </div>
