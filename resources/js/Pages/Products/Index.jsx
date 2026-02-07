@@ -160,7 +160,7 @@ export default function Index({ products, categories, filters }) {
                                                         <span className="text-xs text-muted-foreground">{product.barcode}</span>
                                                     </div>
                                                 </TableCell>
-                                                <TableCell>{product.category?.name}</TableCell>
+                                                <TableCell>  {product.category?.name}</TableCell>
                                                 <TableCell>
                                                     {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(product.selling_price)}
                                                 </TableCell>
