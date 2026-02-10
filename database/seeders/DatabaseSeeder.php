@@ -14,6 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\User::updateOrCreate(
+            ['username' => 'admin'],
+            [
+                'name' => 'Admin User',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('password'),
+                'role' => 'admin',
+            ]
+        );
+
         $this->call([
             CategorySeeder::class,
         ]);

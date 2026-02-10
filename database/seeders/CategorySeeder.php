@@ -1,8 +1,6 @@
 <?php
 
 namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -14,6 +12,9 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Category::factory()->count(50)->create();
+        $categories = ['Office', 'Electronics', 'Furniture', 'Stationary', 'Other'];
+        foreach ($categories as $category) {
+            \App\Models\Category::updateOrCreate(['name' => $category]);
+        }
     }
 }
